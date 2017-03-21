@@ -81,6 +81,8 @@ def save_media(response):
                 write_to_file(args.name, data)
             if args.format == 'csv':
                 write_to_csv(args.name, data)
+            if args.format == 'console':
+                write_to_console(data);
 
 
             #Increment and print it
@@ -167,6 +169,9 @@ def write_text_to_file(file, text):
     f.write("\n")
     f.write(text+"\n")
     f.close()
+
+def write_to_console(data):
+    print data['text'];
 
 def fill_requirements():
 
