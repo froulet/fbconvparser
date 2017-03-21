@@ -12,7 +12,6 @@ import ConfigParser
 #Third-party imports
 import mechanize
 
-
 # Function use to strip html tags
 def strip_html(data):
     #Extract the list from the first position of the array and convert it to string
@@ -53,7 +52,7 @@ def get_date_hour():
 #We extract
 def save_media(response):
     #We get the html source code
-    soup = BeautifulSoup(html)
+    soup = BeautifulSoup(html, "lxml")
     cols = soup.findAll('div', attrs={"id" : 'messageGroup'})
 
     try:
@@ -69,7 +68,7 @@ def save_media(response):
             sender = mess.select("div:nth-of-type(1) >  a >  strong")
             date = mess.findAll("abbr")
 
-            print strip_html(date)+"\n"
+            #print strip_html(date)+"\n"
 
             # We put all the stripped data in a dic
             data = {"nb": strip_html(counter), "text": strip_html(textmess),
@@ -78,22 +77,21 @@ def save_media(response):
             global args
             # To Refacto
             if args.format == 'txt':
+                print strip_html(date)+"\n"
                 write_to_file(args.name, data)
             if args.format == 'csv':
+                print strip_html(date)+"\n"
                 write_to_csv(args.name, data)
             if args.format == 'console':
                 write_to_console(data);
 
-
             #Increment and print it
             counter += 1
             #Logger("Total number of messages saved : " + str(counter))
-            print "Total number of messages saved : " + str(counter)
+            print "\n Total number of messages saved : " + str(counter)
 
         older = soup.find('div', attrs={"id" : 'see_older'}).find('a')
-        #print cols[0].renderContents() # print content of first <td> element
-        #all_text = ''.join(messages.findAll(text=True))
-        #print all_text
+
         return older['href']
 
     except AttributeError:
@@ -227,8 +225,6 @@ response = browser.submit()
 global counter
 counter = 0
 
-#send_message('https://m.facebook.com/messages/read/?tid='+args.convid, "Kek")
-#exit()
 
 try:
     if args.start != 0:
