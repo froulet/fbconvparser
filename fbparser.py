@@ -145,7 +145,7 @@ def increment_start(url):
     parsed = urlparse.urlparse(url)
     start=urlparse.parse_qs(parsed.query)['start']
     start = int(start[0]) + 5
-    return "https://m.facebook.com/messages/read/?tid="+convid+"&start="+str(start)
+    return "https://mbasic.facebook.com/messages/read/?tid="+convid+"&start="+str(start)
 
 def write_to_file(file, data):
     f = open(file+'.txt', 'a')
@@ -211,7 +211,7 @@ fill_requirements()
 global args
 
 #Login
-url = 'https://m.facebook.com/login.php'
+url = 'https://mbasic.facebook.com/login.php'
 browser.open(url)
 browser.select_form(nr = 0)       #This is login-password form -> nr = number = 0
 browser.form['email'] = args.email
@@ -227,9 +227,9 @@ counter = 0
 
 try:
     if args.start != 0:
-        html = browse('https://m.facebook.com/messages/read/?tid='+args.convid+"&start="+args.start)
+        html = browse('https://mbasic.facebook.com/messages/read/?tid='+args.convid+"&start="+args.start)
     else:
-        html = browse('https://m.facebook.com/messages/read/?tid='+args.convid)
+        html = browse('https://mbasic.facebook.com/messages/read/?tid='+args.convid)
 except Exception as error:
     print("Page's conversation couldn't be reached.")
     exit()
@@ -240,7 +240,7 @@ see_older=save_media(html)
 
 #While there is a 'see older' link in the page
 while see_older:
-    html = browse('https://m.facebook.com'+see_older)
+    html = browse('https://mbasic.facebook.com'+see_older)
     see_older=save_media(html)
 
 write_text_to_file(args.name, str(counter) + " messages ")
