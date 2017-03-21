@@ -8,12 +8,13 @@ This python script is a simple conversation parser allowing you to dump a full F
 * Python >= 2.7
 * Mechanize
 * Beautiful Soup
+* pyopenssl
 
 ## Usage
 After filling the conf.cfg file with Facebook email and password,
 use this command :
 
 ```
-python fbparser.py --convid <mid.XXXXXXX> --name <FileName> --format <txt or csv>
+python fbparser.py --convid <mid.XXXXXXX...until the end of the url> --name <FileName> --format <txt or csv or console>
 
 ```
