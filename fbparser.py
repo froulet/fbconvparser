@@ -57,9 +57,20 @@ def to_string(data):
 
 def Logger(data):
     global args
-    if args.log:
-        log = data + get_date_hour()
-        write_text_to_file("log", log)
+    #[SAFEGUARD]
+    if args.log is False:
+        return
+    log = data + get_date_hour()
+    write_text_to_file("log", log)
+
+
+def Debugger(data):
+    global args
+    #[SAFEGUARD]
+    if args.debug is False:
+        return
+    debug = data + get_date_hour()
+    print(debug)
 
 
 def get_date_hour():
@@ -75,7 +86,7 @@ def save_media(response):
 
     try:
         messages = soup.select("#messageGroup > div:nth-of-type(2) > div")
-        print "\n" + str((len(messages))) + " messages on this page \n"
+        Debugger("\n" + str((len(messages))) + " messages on this page \n")
 
         for mess in reversed(messages):
             # We get the global var counter
@@ -105,7 +116,7 @@ def save_media(response):
             # Increment and print it
             counter += 1
             #Logger("Total number of messages saved : " + str(counter))
-            print "\n Total number of messages saved : " + str(counter)
+            Debugger("\n Total number of messages saved : " + str(counter));
 
         older = soup.find('div', attrs={"id": 'see_older'}).find('a')
 
@@ -116,7 +127,7 @@ def save_media(response):
 
 
 def browse(url):
-    print(url)
+    Debugger(url)
     Logger(url)
     html = get_page(url)
 
@@ -222,8 +233,12 @@ def fill_requirements():
 
     parser.add_argument(
         "--format", help="Choose default storing format (txt or csv)", default='txt')
+    # action='store_true' permet d'ajouter une option sans argument (donc
+    # "--debug"" suffit :))
     parser.add_argument(
-        "--log", help="change to true to log parsing", default=False)
+        "--log", help="change to true to log parsing", action='store_true', default=False)
+    parser.add_argument(
+        "--debug", help="change to true to print debug messages", action='store_true', default=False)
     parser.add_argument("--start", help="Start from a certain page", default=0)
 
     global args
