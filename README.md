@@ -9,6 +9,7 @@ This python script is a simple conversation parser allowing you to dump a full F
 * Mechanize
 * Beautiful Soup
 * pyopenssl
+* lxml
 
 ## Usage
 After filling the conf.cfg file with Facebook email and password,
